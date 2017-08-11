@@ -15,6 +15,7 @@ import app.simonsays.com.simonsays_app.models.Score;
 
 public class FileHelper {
 
+    //https://nfrolov.wordpress.com/2014/07/12/android-using-context-statically-and-in-singletons/
     private static List<Score> scores = new ArrayList<>();
 
     public static Score getScore(int index){
