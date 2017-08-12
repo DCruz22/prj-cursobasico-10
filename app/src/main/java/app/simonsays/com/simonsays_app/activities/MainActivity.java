@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         (findViewById(R.id.startGameBtn)).setOnClickListener(this);
         (findViewById(R.id.scoreBtn)).setOnClickListener(this);
+        (findViewById(R.id.exitGameBtn)).setOnClickListener(this);
     }
 
     @Override
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.exitGameBtn:
                 fh.saveScore();
-                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(0);
                 break;
         }
     }

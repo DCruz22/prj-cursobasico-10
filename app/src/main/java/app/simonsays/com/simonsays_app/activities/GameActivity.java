@@ -130,13 +130,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         for(Shapes s : shapes){
             switch (s){
                 case BLUE:
-                    UIHelper.highlightButton(mBlueBtn, withSound, MediaPlayer.create(this, R.raw.a), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mBlueBtn, withSound, MediaPlayer.create(this, R.raw.g), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
                     break;
                 case GREEN:
-                    UIHelper.highlightButton(mGreenBtn, withSound, MediaPlayer.create(this, R.raw.d), (UIHelper.BUTTON_HIGHLIGHT_TIME * count),listener);
+                    UIHelper.highlightButton(mGreenBtn, withSound, MediaPlayer.create(this, R.raw.a), (UIHelper.BUTTON_HIGHLIGHT_TIME * count),listener);
                     break;
                 case YELLOW:
-                    UIHelper.highlightButton(mYellowBtn, withSound, MediaPlayer.create(this, R.raw.g), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mYellowBtn, withSound, MediaPlayer.create(this, R.raw.d), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
                     break;
                 case RED:
                     UIHelper.highlightButton(mRedBtn, withSound, MediaPlayer.create(this, R.raw.c), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
