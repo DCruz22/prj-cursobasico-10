@@ -3,48 +3,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="@drawable/radialgradientback"
     tools:context="app.simonsays.com.simonsays_app.activities.MainActivity">
 
-    <TextView
-        android:id="@+id/titleTv"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Simon Says"
         android:gravity="center"
-        android:layout_marginTop="5dp"/>
+        android:layout_below="@+id/logo"
+        android:orientation="vertical"
+        android:padding="20dp"
+        tools:context="com.example.darielcruzhdez.myapp.activities.MainActivity">
 
     <Button
         android:id="@+id/startGameBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
         android:text="@string/start_game"
-        android:gravity="center_horizontal"
-        android:layout_below="@id/titleTv"/>
+        style="@style/MenuStyle"
+        android:gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/scoreBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
         android:text="@string/scores"
-        android:gravity="center_horizontal"
-        android:layout_below="@id/titleTv"/>
-
-    <Button
-        android:id="@+id/instructionsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="@string/instructions"
-        android:gravity="center_horizontal"
-        android:layout_below="@id/titleTv"/>
+        android:textSize="30sp"
+        style="@style/MenuStyle"
+        android:gravity="center_horizontal"/>
 
     <Button
         android:id="@+id/exitGameBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
         android:text="@string/exit_game"
-        android:gravity="center_horizontal"
-        android:layout_below="@id/titleTv"/>
+        style="@style/MenuStyle"
+        android:gravity="center_horizontal"/>
 
+    </LinearLayout>
 
 </RelativeLayout>

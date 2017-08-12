@@ -1,4 +1,4 @@
-package app.simonsays.com.simonsays_app.Utils;
+package app.simonsays.com.simonsays_app.utils;
 
 import android.util.Log;
 

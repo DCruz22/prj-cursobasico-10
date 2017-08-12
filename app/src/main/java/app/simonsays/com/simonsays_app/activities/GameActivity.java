@@ -1,32 +1,42 @@
 package app.simonsays.com.simonsays_app.activities;
 
-import android.os.AsyncTask;
-import android.os.CountDownTimer;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import app.simonsays.com.simonsays_app.R;
-import app.simonsays.com.simonsays_app.Utils.FileHelper;
-import app.simonsays.com.simonsays_app.Utils.UIHelper;
+import app.simonsays.com.simonsays_app.dialogs.GameOverDialog;
+import app.simonsays.com.simonsays_app.dialogs.InfoDialog;
+import app.simonsays.com.simonsays_app.dialogs.SettingsDialog;
+import app.simonsays.com.simonsays_app.models.Score;
+import app.simonsays.com.simonsays_app.utils.FileHelper;
+import app.simonsays.com.simonsays_app.utils.UIHelper;
 import app.simonsays.com.simonsays_app.models.Shapes;
 
-public class GameActivity extends AppCompatActivity implements View.OnClickListener, UIHelper.HighlightButtonListener {
+public class GameActivity extends AppCompatActivity implements View.OnClickListener, UIHelper.HighlightButtonListener, GameOverDialog.GameOverOnClickListener, SettingsDialog.SettingsOnClickListener {
 
     private static List<Shapes> mShapeSequence;
     private static int mPositionInSequence;
     private static int mCurrentScore = 0;
     private static int mHighScore;
+    private int mButtonsHighlighted;
+    private boolean withSound;
 
     private Random generator = new Random();
+    private FileHelper fh = FileHelper.getInstance();
 
     private Button mGreenBtn;
     private Button mRedBtn;
@@ -34,7 +44,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Button mYellowBtn;
 
     private TextView mGameStatusTv;
-    private int mButtonsHighlighted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +54,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         mRedBtn = (Button) findViewById(R.id.redBtn);
         mGreenBtn = (Button) findViewById(R.id.greenBtn);
         mYellowBtn = (Button) findViewById(R.id.yellowBtn);
-        Button mStartBtn = (Button) findViewById(R.id.startBtn);
 
         mGameStatusTv = (TextView) findViewById(R.id.gameStatusTv);
 
-        mHighScore = FileHelper.readIntPreferences(this, R.string.highscore_preference, R.string.highscore_preference, 0);
+        mHighScore = fh.readIntPreferences(R.string.highscore_preference, R.string.highscore_preference, 0);
+        withSound = fh.readIntPreferences(R.string.sound_preference, R.string.sound_preference, 1) == 1;
+
         updateScoreTv(mHighScore, R.id.highScoreTv, R.string.high_score);
         updateScoreTv(mCurrentScore, R.id.currenScoreTv, R.string.current_score);
 
@@ -60,7 +70,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         mRedBtn.setOnClickListener(this);
         mGreenBtn.setOnClickListener(this);
         mYellowBtn.setOnClickListener(this);
-        mStartBtn.setOnClickListener(this);
+        findViewById(R.id.startBtn).setOnClickListener(this);
+        findViewById(R.id.settingsBtn).setOnClickListener(this);
+        findViewById(R.id.infoBtn).setOnClickListener(this);
 
     }
 
@@ -82,6 +94,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.redBtn:
                 verifySequence(Shapes.RED);
                 break;
+            case R.id.settingsBtn:
+                new SettingsDialog(this, this).OnCreateDialog().show();
+                break;
+            case R.id.infoBtn:
+                new InfoDialog(this).OnCreateDialog().show();
+                break;
         }
     }
 
@@ -102,9 +120,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     private void gameOver(){
         mShapeSequence = null;
-        Toast.makeText(this, "Usted ha perdido", Toast.LENGTH_SHORT).show();
         mGameStatusTv.setText(R.string.press_start);
         UIHelper.disableButtons(mBlueBtn, mRedBtn, mGreenBtn, mYellowBtn);
+        new GameOverDialog(this, this).OnCreateDialog().show();
     }
 
     private void displaySequence(List<Shapes> shapes, @NonNull UIHelper.HighlightButtonListener listener){
@@ -112,16 +130,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         for(Shapes s : shapes){
             switch (s){
                 case BLUE:
-                    UIHelper.highlightButton(mBlueBtn, (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mBlueBtn, withSound, MediaPlayer.create(this, R.raw.a), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
                     break;
                 case GREEN:
-                    UIHelper.highlightButton(mGreenBtn, (UIHelper.BUTTON_HIGHLIGHT_TIME * count),listener);
+                    UIHelper.highlightButton(mGreenBtn, withSound, MediaPlayer.create(this, R.raw.d), (UIHelper.BUTTON_HIGHLIGHT_TIME * count),listener);
                     break;
                 case YELLOW:
-                    UIHelper.highlightButton(mYellowBtn, (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mYellowBtn, withSound, MediaPlayer.create(this, R.raw.g), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
                     break;
                 case RED:
-                    UIHelper.highlightButton(mRedBtn, (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mRedBtn, withSound, MediaPlayer.create(this, R.raw.c), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
                     break;
             }
 
@@ -149,7 +167,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if(mCurrentScore > mHighScore){
             mHighScore = mCurrentScore;
             updateScoreTv(mHighScore, R.id.highScoreTv, R.string.high_score);
-            FileHelper.writeIntPreferences(this, R.string.highscore_preference, R.string.highscore_preference, mHighScore);
+            fh.writeIntPreferences(R.string.highscore_preference, R.string.highscore_preference, mHighScore);
         }
     }
 
@@ -166,5 +184,22 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             UIHelper.enableButtons(mBlueBtn, mRedBtn, mGreenBtn, mYellowBtn);
             mGameStatusTv.setText(getText(R.string.your_turn));
         }
+    }
+
+    @Override
+    public void onClick(TextView tv) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String currentDateAndTime = sdf.format(new Date());
+        String name = tv.getText().toString().equals("") ? getString(R.string.anonymous) : tv.getText().toString();
+        fh.addScore(new Score(name, mCurrentScore, currentDateAndTime));
+        fh.saveScore();
+    }
+
+    @Override
+    public void onClick(NumberPicker np, ToggleButton tb) {
+        fh.writeIntPreferences(R.string.duration_preference, R.string.duration_preference, np.getValue());
+        fh.writeIntPreferences(R.string.sound_preference, R.string.sound_preference, tb.isChecked() ? 1 : 0);
+        UIHelper.BUTTON_HIGHLIGHT_TIME = 1400 * np.getValue();
+        withSound = tb.isChecked();
     }
 }

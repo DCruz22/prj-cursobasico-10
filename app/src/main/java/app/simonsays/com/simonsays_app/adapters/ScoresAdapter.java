@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.darielcruzhdez.tourismapp.R;
-import com.example.darielcruzhdez.tourismapp.main.models.Score;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import app.simonsays.com.simonsays_app.R;
+import app.simonsays.com.simonsays_app.models.Score;
 
 /**
  * Created by darielcruzhdez on 10/8/16.
@@ -24,9 +25,9 @@ public class ScoresAdapter extends ArrayAdapter<Score> {
     // Your custom values for the spinner (User)
     private List<Score> mScores = new ArrayList<>();
 
-    public ScoresAdapter(Context context, int textViewResourceId,
+    public ScoresAdapter(Context context,
                        List<Score> values){
-        super(context, textViewResourceId, values);
+        super(context, 0, values);
         this.mContext = context;
         this.mScores = values;
     }
@@ -73,7 +74,8 @@ public class ScoresAdapter extends ArrayAdapter<Score> {
         return pos;
     }
 
-    public View returnSpinnerView(int position, View convertView){
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent){
         ViewHolderItem holder;
 
         if(convertView == null){
@@ -94,10 +96,10 @@ public class ScoresAdapter extends ArrayAdapter<Score> {
         Score item = mScores.get(position);
 
         if(item != null){
-            holder.PlayerNameTV.setText(item.getName());
-            holder.PlayerScoreTV.setText(item.getName());
-            holder.PlayerDateTV.setText(item.getName());
-            holder.PlayerNameTV.setTag(item.getId());
+            holder.PlayerNameTV.setText(item.getPlayerName());
+            holder.PlayerScoreTV.setText(item.getScore()+"");
+            holder.PlayerDateTV.setText(item.getDate());
+            holder.PlayerNameTV.setTag(item.getPlayerName());
         }
 
         return convertView;
