@@ -48,7 +48,7 @@ public class SettingsDialog extends AlertDialog {
 
         dialogBuilder.setPositiveButton(mContext.getString(R.string.save), new OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                mOnClickListener.onClick(durationNumberPicker, soundToggleBtn);
+                mOnClickListener.onSaveSettings(durationNumberPicker, soundToggleBtn);
             }
         });
         dialogBuilder.setNegativeButton(mContext.getString(R.string.cancel), new OnClickListener() {
@@ -62,6 +62,6 @@ public class SettingsDialog extends AlertDialog {
     }
 
     public interface SettingsOnClickListener{
-        void onClick(NumberPicker np, ToggleButton tb);
+        void onSaveSettings(NumberPicker np, ToggleButton tb);
     }
 }

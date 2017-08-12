@@ -186,7 +186,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(TextView tv) {
+    public void onSaveScore(TextView tv) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String currentDateAndTime = sdf.format(new Date());
         String name = tv.getText().toString().equals("") ? getString(R.string.anonymous) : tv.getText().toString();
@@ -195,7 +195,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(NumberPicker np, ToggleButton tb) {
+    public void onSaveSettings(NumberPicker np, ToggleButton tb) {
         fh.writeIntPreferences(R.string.duration_preference, R.string.duration_preference, np.getValue());
         fh.writeIntPreferences(R.string.sound_preference, R.string.sound_preference, tb.isChecked() ? 1 : 0);
         UIHelper.BUTTON_HIGHLIGHT_TIME = 1400 * np.getValue();

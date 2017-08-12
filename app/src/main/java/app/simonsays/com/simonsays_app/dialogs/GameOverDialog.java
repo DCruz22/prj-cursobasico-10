@@ -1,22 +1,15 @@
 package app.simonsays.com.simonsays_app.dialogs;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import app.simonsays.com.simonsays_app.R;
-import app.simonsays.com.simonsays_app.models.Score;
 
 /**
  * Created by darielcruzhdez on 8/11/17.
@@ -43,7 +36,7 @@ public class GameOverDialog extends AlertDialog {
 
         dialogBuilder.setPositiveButton(mContext.getString(R.string.save), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                mOnClickListener.onClick(nameEd);
+                mOnClickListener.onSaveScore(nameEd);
             }
         });
         dialogBuilder.setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -57,6 +50,6 @@ public class GameOverDialog extends AlertDialog {
     }
 
     public interface GameOverOnClickListener{
-        void onClick(TextView tv);
+        void onSaveScore(TextView tv);
     }
 }
