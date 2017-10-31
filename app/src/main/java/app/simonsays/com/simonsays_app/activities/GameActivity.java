@@ -23,11 +23,15 @@ import app.simonsays.com.simonsays_app.dialogs.SettingsDialog;
 import app.simonsays.com.simonsays_app.models.Score;
 import app.simonsays.com.simonsays_app.utils.FileHelper;
 import app.simonsays.com.simonsays_app.utils.UIHelper;
-import app.simonsays.com.simonsays_app.models.Shapes;
 
 public class GameActivity extends AppCompatActivity implements View.OnClickListener, UIHelper.HighlightButtonListener, GameOverDialog.GameOverOnClickListener, SettingsDialog.SettingsOnClickListener {
 
-    private static List<Shapes> mShapeSequence;
+    private static final int BLUE = 1;
+    private static final int RED = 2;
+    private static final int GREEN = 3;
+    private static final int YELLOW = 4;
+
+    private static List<Integer> mShapeSequence;
     private static int mPositionInSequence;
     private static int mCurrentScore = 0;
     private static int mHighScore;
@@ -82,16 +86,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 startGame();
                 break;
             case R.id.greenBtn:
-                verifySequence(Shapes.GREEN);
+                verifySequence(GREEN);
                 break;
             case R.id.blueBtn:
-                verifySequence(Shapes.BLUE);
+                verifySequence(BLUE);
                 break;
             case R.id.yellowBtn:
-                verifySequence(Shapes.YELLOW);
+                verifySequence(YELLOW);
                 break;
             case R.id.redBtn:
-                verifySequence(Shapes.RED);
+                verifySequence(RED);
                 break;
             case R.id.settingsBtn:
                 new SettingsDialog(this, this).OnCreateDialog().show();
@@ -110,7 +114,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void continueGame(){
-        mShapeSequence.add(Shapes.values()[generator.nextInt(4)]);
+        mShapeSequence.add(generator.nextInt(4));
         UIHelper.disableButtons(mBlueBtn, mRedBtn, mGreenBtn, mYellowBtn);
         mGameStatusTv.setText(getText(R.string.simon_turn));
 
@@ -124,9 +128,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         new GameOverDialog(this, this).OnCreateDialog().show();
     }
 
-    private void displaySequence(List<Shapes> shapes, @NonNull UIHelper.HighlightButtonListener listener){
+    private void displaySequence(List<Integer> shapes, @NonNull UIHelper.HighlightButtonListener listener){
         int count = 1;
-        for(Shapes s : shapes){
+        for(int s : shapes){
             switch (s){
                 case BLUE:
                     UIHelper.highlightButton(mBlueBtn, withSound, MediaPlayer.create(this, R.raw.g), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
@@ -146,7 +150,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void verifySequence(Shapes shape){
+    private void verifySequence(Integer shape){
         mPositionInSequence++;
 
         if(mShapeSequence.get(mPositionInSequence) == shape){
