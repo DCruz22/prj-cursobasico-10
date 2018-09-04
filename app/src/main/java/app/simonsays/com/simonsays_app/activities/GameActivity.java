@@ -133,16 +133,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         for(int s : shapes){
             switch (s){
                 case BLUE:
-                    UIHelper.highlightButton(mBlueBtn, withSound, MediaPlayer.create(this, R.raw.g), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mBlueBtn, withSound, MediaPlayer.create(this, R.raw.g), count, listener);
                     break;
                 case GREEN:
-                    UIHelper.highlightButton(mGreenBtn, withSound, MediaPlayer.create(this, R.raw.a), (UIHelper.BUTTON_HIGHLIGHT_TIME * count),listener);
+                    UIHelper.highlightButton(mGreenBtn, withSound, MediaPlayer.create(this, R.raw.a), count,listener);
                     break;
                 case YELLOW:
-                    UIHelper.highlightButton(mYellowBtn, withSound, MediaPlayer.create(this, R.raw.d), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mYellowBtn, withSound, MediaPlayer.create(this, R.raw.d), count, listener);
                     break;
                 case RED:
-                    UIHelper.highlightButton(mRedBtn, withSound, MediaPlayer.create(this, R.raw.c), (UIHelper.BUTTON_HIGHLIGHT_TIME * count), listener);
+                    UIHelper.highlightButton(mRedBtn, withSound, MediaPlayer.create(this, R.raw.c), count, listener);
                     break;
             }
 
@@ -199,10 +199,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onSaveSettings(NumberPicker np, ToggleButton tb) {
-        fh.writeIntPreferences(R.string.duration_preference, R.string.duration_preference, np.getValue());
+    public void onSaveSettings(ToggleButton tb) {
         fh.writeIntPreferences(R.string.sound_preference, R.string.sound_preference, tb.isChecked() ? 1 : 0);
-        UIHelper.BUTTON_HIGHLIGHT_TIME = 1400 * np.getValue();
         withSound = tb.isChecked();
     }
 }

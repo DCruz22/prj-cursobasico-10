@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.Collections;
+import java.util.List;
+
 import app.simonsays.com.simonsays_app.R;
 import app.simonsays.com.simonsays_app.adapters.ScoresAdapter;
 import app.simonsays.com.simonsays_app.models.Score;
@@ -21,7 +24,10 @@ public class ScoresActivity extends AppCompatActivity {
 
         ListView lv = (ListView) findViewById(R.id.scoresLV);
 
-        ScoresAdapter adapter = new ScoresAdapter(this, fh.getScores());
+        List<Score> scores = fh.getScores();
+        Collections.sort(scores);
+
+        ScoresAdapter adapter = new ScoresAdapter(this, scores);
         lv.setAdapter(adapter);
     }
 }

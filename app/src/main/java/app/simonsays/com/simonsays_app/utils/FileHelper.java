@@ -19,9 +19,7 @@ public class FileHelper {
 
     private Context mContext;
 
-    private FileHelper(){
-
-    }
+    private FileHelper(){}
 
     public void init(Context appContext) {
         mContext = appContext;
