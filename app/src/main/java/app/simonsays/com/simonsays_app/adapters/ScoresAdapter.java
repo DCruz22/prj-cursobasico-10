@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import app.simonsays.com.simonsays_app.R;
@@ -35,6 +36,7 @@ public class ScoresAdapter extends ArrayAdapter<Score> {
     public void add(Score item) {
 
         mScores.add(item);
+        Collections.sort(mScores);
         notifyDataSetChanged();
 
     }

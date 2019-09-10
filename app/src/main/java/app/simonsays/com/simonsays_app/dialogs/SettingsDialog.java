@@ -41,14 +41,9 @@ public class SettingsDialog extends AlertDialog {
         boolean isPressed = fh.readIntPreferences(R.string.sound_preference, R.string.sound_preference, 1) == 1;
         soundToggleBtn.setChecked(isPressed);
 
-        final NumberPicker durationNumberPicker = (NumberPicker) dialogView.findViewById(R.id.durationPicker);
-        durationNumberPicker.setMinValue(1);
-        durationNumberPicker.setMaxValue(5);
-        durationNumberPicker.setValue(fh.readIntPreferences(R.string.duration_preference, R.string.duration_preference, 1));
-
         dialogBuilder.setPositiveButton(mContext.getString(R.string.save), new OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                mOnClickListener.onSaveSettings(durationNumberPicker, soundToggleBtn);
+                mOnClickListener.onSaveSettings(soundToggleBtn);
             }
         });
         dialogBuilder.setNegativeButton(mContext.getString(R.string.cancel), new OnClickListener() {
@@ -62,6 +57,6 @@ public class SettingsDialog extends AlertDialog {
     }
 
     public interface SettingsOnClickListener{
-        void onSaveSettings(NumberPicker np, ToggleButton tb);
+        void onSaveSettings(ToggleButton tb);
     }
 }

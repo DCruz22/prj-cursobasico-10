@@ -13,10 +13,7 @@ import app.simonsays.com.simonsays_app.R;
 
 public class UIHelper {
 
-    private static FileHelper fh = FileHelper.getInstance();
-
     private static Handler h = new Handler();
-    public static int BUTTON_HIGHLIGHT_TIME = 1400 * fh.readIntPreferences(R.string.duration_preference, R.string.duration_preference, 1);
     public static final int BUTTON_BEFORE_HIGHLIGHT_TIME = 500;
     
     public static void highlightButton(final Button button, final boolean playSound, final MediaPlayer mp, int delay, @NonNull final HighlightButtonListener listener){
@@ -28,7 +25,7 @@ public class UIHelper {
 
                 button.setPressed(true);
             }
-        }, (delay - BUTTON_HIGHLIGHT_TIME)+ BUTTON_BEFORE_HIGHLIGHT_TIME);
+        }, delay+ BUTTON_BEFORE_HIGHLIGHT_TIME);
         h.postDelayed(new Runnable(){
             public void run(){
                 if(mp.isPlaying()) {
